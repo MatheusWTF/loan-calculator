@@ -1,11 +1,19 @@
 //Listen for Submit
-document.querySelector('#loan-form').addEventListener('submit', calculateResults);
-
-//Calculate Results
-function calculateResults(e){
+document.querySelector('#loan-form').addEventListener('submit', (e) => {
+  //Prevent Default Action of Submit
   e.preventDefault();
 
-  //UI Vars
+  //Hide Results
+  document.querySelector('#results').style.display = 'none';
+  //Show Loader
+  document.querySelector('#loading').style.display = 'block';
+
+  setTimeout(calculateResults, 2000);
+});
+
+//Calculate Results
+function calculateResults(){
+    //UI Vars
   const amount = document.querySelector('#amount');
   const interest = document.querySelector('#interest');
   const years = document.querySelector('#years');
@@ -25,6 +33,11 @@ function calculateResults(e){
     monthlyPayment.value = monthly.toFixed(2);
     totalPayment.value = (monthly * calculatedPayments).toFixed(2);
     totalInterest.value = ((monthly * calculatedPayments) - principal).toFixed(2);
+
+    //Show Results
+    document.querySelector('#results').style.display = 'block';
+    //Hide Loader
+    document.querySelector('#loading').style.display = 'none';
   }else{
     showError('Please check if everything has been Filled.');
   }
@@ -32,6 +45,9 @@ function calculateResults(e){
 
 //Show Error
 function showError(error){
+  //Hide Loader
+  document.querySelector('#loading').style.display = 'none';
+  
   //Get Elements
   const card = document.querySelector('.card');
   const heading = document.querySelector('.heading');
